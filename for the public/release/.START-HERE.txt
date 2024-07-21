@@ -1,0 +1,36 @@
+* * * * * * * * * * * * * * *
+* WELCOME TO WIZARD GAME!!! *
+* * * * * * * * * * * * * * *
+
+Thanks for trying out this game! I appreciate any and all
+feedback (yes, even negative feedback), as it helps
+make the game better, for you :)
+
+To start playing, all you have to do is go into the game folder, and
+double-click the file named "wizard game.exe". That should launch
+the game, and from there, all you have to do is grab a friend,
+and have fun!
+
+The controls are as follows:
+W - Player 1 move up
+S - Player 1 move down
+A - Player 1 move left
+D - Player 1 move right
+C - Player 1 melee
+E - Player 1 use item
+1,2,3,4 - Player 1 select hotbar slot corresponding to the number
+
+I - Player 2 move up
+K - Player 2 move down
+J - Player 2 move left
+L - Player 2 move right
+. - Player 2 melee
+O - Player 2 use item
+7,8,9,0 - Player 2 select hotbar slot corresponding to the number (7 -> 1, 8 -> 2, 9 -> 3, 0 -> 4)
+
+T - reset the game
+
+If you have any questions or bug reports, feel free to email me at fwamingo273@gmail.com,
+or shoot me a discord message, @fwamingo.
+
+Have fun!
