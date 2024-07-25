@@ -239,7 +239,6 @@ class Player:
     for i in range(len(self.hotbar_list)):
       print(i)
       self.hotbar_list[i].destroy()
-      del self.hotbar_list[i]
     
     self.health_frame.destroy()
     self.health_frame_border.destroy()
