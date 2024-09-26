@@ -96,7 +96,6 @@ class Player:
       hotbar_frame = ntk.Label(root, width = 24, height = 24, border_width = 2, image = slot.chosen_image, border = "white").place(((self.health)+10)+spacer, 1)
       self.hotbar_list.append(hotbar_frame)
       spacer += 30
-    print(self.hotbar_list)
 
   def check_movement_y(self, curr_y: int):
     """
@@ -170,8 +169,9 @@ class Player:
     if within_range and self.can_attack:
       target.health -= damage
       target.update_health()
-    if target.health <= 0:
+    if target.health <= 0 and self.can_attack:
       self.can_attack = False
+      print(f"Player health at: {self.health}")
 
 
   def melee(self, target: object):
@@ -237,7 +237,6 @@ class Player:
     self.player_frame.destroy()
     self.health_frame.destroy()
     for i in range(len(self.hotbar_list)):
-      print(i)
       self.hotbar_list[i].destroy()
     
     self.health_frame.destroy()
@@ -271,6 +270,15 @@ class Weapon:
     if len(self.image_list) == 0:
       self.chosen_image = "0.png"
     self.chosen_image = str(self.chosen_image)
+
+
+class Projectile:
+  """
+  
+  """
+  def __init__(self, image, velocity):
+    self.velocity = velocity
+    self.image = image
 
 
 def player_2_setup():

@@ -11,4 +11,5 @@ Finally do some refactoring. COMPLETE!
 - Side Objective: Made more human-readable. COMPLETE! *1
 - Side Objective: Added a lot of explanations. COMPLETE!
 - Side Objective: ADDED ABILITY TO HAVE DIFFERENT TEXTURES FOR EACH PLAYER!!! COMPLETE!
+Add Projectiles.
 *1 Basically the same thing . . .
