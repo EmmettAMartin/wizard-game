@@ -124,9 +124,11 @@ class Player:
 
 
   def move(self, key):
+    """
+    Adds or subtracts momentum to the player.
+    """
     key = self.check_keys(key)
 
-    # Change to Match-Case later on
     match key:
       case "w":
         self.momentum_y = -1
@@ -139,6 +141,9 @@ class Player:
 
 
   def check_keys(self, key):
+    """
+    Changes player 2 keys to player 1 keys for the move function.
+    """
     if key == "i":
       return "w"
     elif key == "j":
@@ -152,6 +157,9 @@ class Player:
     
 
   def reset_momentum(self):
+    """
+    Sets momentum to 0.
+    """
     self.momentum_x, self.momentum_y = 0, 0
       
 
@@ -404,8 +412,6 @@ def reset_momentum(event):
 
 root.bind("<KeyPress>", get_keypress)
 root.bind("<KeyRelease>", reset_momentum)
-
-# LKDJSFA;LKDJFA;LSJ IDK how to "main game loop"
 
 game_running = True
 
