@@ -62,9 +62,9 @@ class Player:
     self.player_frame = ntk.Label(root, width=30, height=30, image=self.wizard_texture).place(x = self.curr_x, y = self.curr_y)
 
     self.health_frame_border = ntk.Frame(root, fill = "white", width = self.health+4, height = 10, border_width=0)
-    self.health_frame = ntk.Frame(self.health_frame_border, fill = player_colour, width = self.health, height = 6, border_width=0)
+    self.health_frame = ntk.Frame(root = self.health_frame_border, fill = player_colour, width = self.health, height = 6, border_width=0)
     self.health_frame_border.place(x = 1, y = 1)
-    self.health_frame.place(x = 3, y = 3)
+    self.health_frame.place(x = 2, y = 2)
 
     self.can_attack = True
     self.name = name
@@ -321,7 +321,7 @@ def player_2_setup():
   """
   p2.curr_x = 400
   p2.health_frame_border.place(x = 445, y = 1)
-  p2.health_frame.place(x = 447, y = 3)
+  p2.health_frame.place(x = 2, y = 2)
   p2.update_position()
   for j in range(len(p2.hotbar)):
     p2.hotbar[j].regenerate_image()
