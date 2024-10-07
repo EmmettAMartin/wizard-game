@@ -43,7 +43,7 @@ class Player:
   Look at the individual functions for more information.
   """
 
-  def __init__(self, name: str, player_colour: str, speed: int = 10, hotbar: list = [], health: int = 50):
+  def __init__(self, name: str, player_colour: str, speed: int = 3.5, hotbar: list = [], health: int = 50):
     self.hotbar = hotbar
     self.vertical_direction = 0
     self.horizontal_direction = 0
@@ -118,7 +118,7 @@ class Player:
     """
     Check if the current position of the player is within the allowed horizontal area of the screen.
     """
-    if (curr_x > 470) or (curr_x < 0):
+    if (curr_x > 470) or (curr_x < 2):
       return False
     else: return True
 
@@ -410,7 +410,7 @@ root.bind("<KeyRelease>", reset_momentum)
 game_running = True
 
 while game_running:
-  time.sleep(0.05)
+  time.sleep(0.02)
   p1.update_position()
   p2.update_position()
   
