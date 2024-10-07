@@ -27,6 +27,8 @@ from random import randint
 
 from math import sqrt
 
+import time
+
 root = ntk.Window(width = 500, height = 500, resizable = False, title = "Wizard Game")
 
 c = ntk.Frame(root = root, width = 500, height = 500, fill = "black", border_width = 0)
@@ -49,6 +51,8 @@ class Player:
     self.health = health
     self.curr_x = 100
     self.curr_y = 100
+    self.momentum_x = 0
+    self.momentum_y = 0
 
     if name == "Womzard":
       self.wizard_texture = "wizard.png"
@@ -93,15 +97,19 @@ class Player:
     self.hotbar_list = []
     spacer = 0
     for slot in self.hotbar:
-      hotbar_frame = ntk.Label(root, width = 24, height = 24, border_width = 2, image = slot.chosen_image, border = "white").place(((self.health)+10)+spacer, 1)
+      try:
+        hotbar_frame = ntk.Label(root, width = 24, height = 24, border_width = 2, image = slot.chosen_image, border = "white").place(((self.health)+10)+spacer, 1)
+      except FileNotFoundError:
+        hotbar_frame = ntk.Label(root, width = 24, height = 24, border_width = 2, image = "0.png", border = "white").place(((self.health)+10)+spacer, 1)
       self.hotbar_list.append(hotbar_frame)
       spacer += 30
+
 
   def check_movement_y(self, curr_y: int):
     """
     Check if the current position of the player is within the allowed vertical area of the screen.
     """
-    if (curr_y > 470) or (curr_y < 25):
+    if (curr_y > 470) or (curr_y < 30):
       return False
     else: return True
 
@@ -115,30 +123,48 @@ class Player:
     else: return True
 
 
-  def move_vertical(self, vertical_direction: int):
-    """
-    Changes the current vertical position of the player.
-    """
-    can_move = self.check_movement_y(self.curr_y + (self.speed * vertical_direction))
-    if can_move:
-      self.curr_y += (self.speed * vertical_direction)
-      self.update_position()
+  def move(self, key):
+    key = self.check_keys(key)
+
+    # Change to Match-Case later on
+    match key:
+      case "w":
+        self.momentum_y = -1
+      case "a":
+        self.momentum_x = -1
+      case "s":
+        self.momentum_y = 1
+      case "d":
+        self.momentum_x = 1
 
 
-  def move_horizontal(self, horizontal_direction: int):
-    """
-    Changes the current horizontal position of the player.
-    """
-    can_move = self.check_movement_x(self.curr_x + (self.speed * horizontal_direction))
-    if can_move:
-      self.curr_x += (self.speed * horizontal_direction)
-      self.update_position()
+  def check_keys(self, key):
+    if key == "i":
+      return "w"
+    elif key == "j":
+      return "a"
+    elif key == "k":
+      return "s"
+    elif key == "l":
+      return "d"
+    else:
+      return key
+    
 
+  def reset_momentum(self):
+    self.momentum_x, self.momentum_y = 0, 0
+      
 
   def update_position(self):
     """
     Updates the position of the player.
     """
+    if self.check_movement_x(self.curr_x + self.momentum_x):
+      self.curr_x += self.momentum_x * self.speed
+
+    if self.check_movement_y(self.curr_y + self.momentum_y):
+      self.curr_y += self.momentum_y * self.speed
+
     self.player_frame.place(x = self.curr_x, y = self.curr_y)
 
 
@@ -150,7 +176,7 @@ class Player:
     Returns True or False.
     """
     # We need A, B and C. To find A and B, we just take the absolute of x-target_x and y-target_y.
-    # From there, we can find C by using A ** 2 + B ** 2 = C ** 2. Then sqrt(C) and check that against attack range.
+    # From there, we can find C by using A^2 + B^2 = C^2. Then sqrt(C) and check that against attack range.
     a = (abs(y-target_y)) ** 2
     b = (abs(x-target_x)) ** 2
     c = a+b # Stay in school kids. It helps you make video games.
@@ -301,6 +327,7 @@ def player_2_setup():
     """
     p2.hotbar_list[i].place(x = 500-p2.health-28-100+(30*i), y = 1) # This needs to change sometime in the future.
 
+
 def reset():
   """
   Resets the visuals of the game, and resets player health and position.
@@ -322,50 +349,27 @@ def reset():
   p1.last_key_pressed = -1
   p2.last_key_pressed = -1
 
+
 def get_keypress(event):
   """
   Handles all keypresses necessary to run the game. Needs to change.
   """
   key = str.lower(event.char)
 
-  if key == "i":
-    p2.move_vertical(-1)
-  if key == "k":
-    p2.move_vertical(1)
-  if key == "j":
-    p2.move_horizontal(-1)
-  if key == "l":
-    p2.move_horizontal(1)
+  if key in ("i","j","k","l"):
+    p2.move(key)
   if key == ".":
     p2.melee(p1)
-  if key == "7":
+  if key in ("7","8","9","0"):
     p2.use_hotbar(key)
-  if key == "8":
-    p2.use_hotbar(key)
-  if key == "9":
-    p2.use_hotbar(key)
-  if key == "0":
-    p2.use_hotbar(key)
-  if key == "o":
+  if key == "u":
     p2.use_item(p1)
 
-  if key == "w":
-    p1.move_vertical(-1)
-  if key == "s":
-    p1.move_vertical(1)
-  if key == "a":
-    p1.move_horizontal(-1)
-  if key == "d":
-    p1.move_horizontal(1)
+  if key in ("w","a","s","d"):
+    p1.move(key)
   if key == "c":
     p1.melee(p2)
-  if key == "1":
-    p1.use_hotbar(key)
-  if key == "2":
-    p1.use_hotbar(key)
-  if key == "3":
-    p1.use_hotbar(key)
-  if key == "4":
+  if key in ("1","2","3","4"):
     p1.use_hotbar(key)
   if key == "e":
     p1.use_item(p2)
@@ -373,12 +377,33 @@ def get_keypress(event):
   if key == "t":
     reset()
 
-p1 = Player(name = "Womzard", player_colour = "orange")
-p1.hotbar = [p1.sword, p1.bow, p1.hellsword, p1.dagger]
-p1.load_hotbar()
-p2 = Player(name = "Wimzard", player_colour = "violet")
-p2.hotbar = [p2.sword, p2.bow, p2.hellsword, p2.dagger]
-p2.load_hotbar()
-player_2_setup()
+
+def initial_player_creation():
+  global p1
+  global p2
+  # Paves the way for menu creation later on by not having the objects created as soon as the file is ran.
+  # Just making life easier for future me.
+  p1 = Player(name = "Womzard", player_colour = "orange")
+  p1.hotbar = [p1.sword, p1.bow, p1.hellsword, p1.dagger]
+  p1.load_hotbar()
+  p2 = Player(name = "Wimzard", player_colour = "violet")
+  p2.hotbar = [p2.sword, p2.bow, p2.hellsword, p2.dagger]
+  p2.load_hotbar()
+  player_2_setup()
+
+
+initial_player_creation()
 
 root.bind("<Key>", get_keypress)
+
+# LKDJSFA;LKDJFA;LSJ IDK how to "main game loop"
+
+game_running = True
+
+i = 0
+while game_running:
+  time.sleep(0.05)
+  p1.update_position()
+  p2.update_position()
+  p1.reset_momentum()
+  p2.reset_momentum()
