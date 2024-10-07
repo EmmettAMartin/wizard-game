@@ -409,7 +409,6 @@ root.bind("<KeyRelease>", reset_momentum)
 
 game_running = True
 
-i = 0
 while game_running:
   time.sleep(0.05)
   p1.update_position()
