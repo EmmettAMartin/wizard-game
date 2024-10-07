@@ -362,7 +362,7 @@ def get_keypress(event):
     p2.melee(p1)
   if key in ("7","8","9","0"):
     p2.use_hotbar(key)
-  if key == "u":
+  if key == "o":
     p2.use_item(p1)
 
   if key in ("w","a","s","d"):
@@ -394,7 +394,16 @@ def initial_player_creation():
 
 initial_player_creation()
 
-root.bind("<Key>", get_keypress)
+def reset_momentum(event):
+  key = str.lower(event.char)
+
+  if key in ("w","a","s","d"):
+    p1.reset_momentum()
+  if key in ("i","j","k","l"):
+    p2.reset_momentum()
+
+root.bind("<KeyPress>", get_keypress)
+root.bind("<KeyRelease>", reset_momentum)
 
 # LKDJSFA;LKDJFA;LSJ IDK how to "main game loop"
 
@@ -405,5 +414,4 @@ while game_running:
   time.sleep(0.05)
   p1.update_position()
   p2.update_position()
-  p1.reset_momentum()
-  p2.reset_momentum()
+  
