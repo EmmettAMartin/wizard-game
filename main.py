@@ -31,6 +31,11 @@ import time
 
 root = ntk.Window(width = 500, height = 500, resizable = False, title = "Wizard Game")
 
+def close():
+  global game_running
+  game_running = False
+root.closing_command = close
+
 c = ntk.Frame(root = root, width = 500, height = 500, fill = "black", border_width = 0)
 
 c.place()
@@ -415,8 +420,14 @@ root.bind("<KeyRelease>", reset_momentum)
 
 game_running = True
 
+frame_count = 0
+time_count = 0
 while game_running:
-  time.sleep(0.02)
+  frame_count += 1
+  time_count += 2
   p1.update_position()
   p2.update_position()
-  
+  if time_count == 100:
+    print(frame_count)
+    frame_count = 0
+    time_count = 0
