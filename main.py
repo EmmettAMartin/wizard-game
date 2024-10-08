@@ -48,7 +48,7 @@ class Player:
   Look at the individual functions for more information.
   """
 
-  def __init__(self, name: str, player_colour: str, speed: int = 3.5, hotbar: list = [], health: int = 50):
+  def __init__(self, name: str, player_colour: str, speed: int = 3, hotbar: list = [], health: int = 50):
     self.hotbar = hotbar
     self.vertical_direction = 0
     self.horizontal_direction = 0
@@ -415,19 +415,19 @@ def reset_momentum(event):
   if key in ("i","j","k","l"):
     p2.reset_momentum()
 
+
 root.bind("<KeyPress>", get_keypress)
 root.bind("<KeyRelease>", reset_momentum)
 
 game_running = True
 
-frame_count = 0
-time_count = 0
+tps = 50
 while game_running:
-  frame_count += 1
-  time_count += 2
+  start_tick = time.time()
+
   p1.update_position()
   p2.update_position()
-  if time_count == 100:
-    print(frame_count)
-    frame_count = 0
-    time_count = 0
+
+  completed_in = time.time()-start_tick
+  if completed_in < (1/tps):
+    time.sleep(1/tps - completed_in)
