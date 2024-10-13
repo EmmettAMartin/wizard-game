@@ -64,9 +64,9 @@ class Player:
     if name == "Wimzard":
       self.wizard_texture = "wizard2.png"
 
-    self.player_frame = ntk.Label(root, width=30, height=30, image=self.wizard_texture).place(x = self.curr_x, y = self.curr_y)
+    self.player_frame = ntk.Label(root=root, width=30, height=30, image=self.wizard_texture).place(x = self.curr_x, y = self.curr_y)
 
-    self.health_frame_border = ntk.Frame(root, fill = "white", width = self.health+4, height = 10, border_width=0)
+    self.health_frame_border = ntk.Frame(root=root, fill = "white", width = self.health+4, height = 10, border_width=0)
     self.health_frame = ntk.Frame(root = self.health_frame_border, fill = player_colour, width = self.health, height = 6, border_width=0)
     self.health_frame_border.place(x = 1, y = 1)
     self.health_frame.place(x = 2, y = 2)
@@ -114,7 +114,7 @@ class Player:
     """
     Check if the current position of the player is within the allowed vertical area of the screen.
     """
-    if (curr_y > 470) or (curr_y < 30):
+    if (curr_y > 469) or (curr_y < 31):
       return False
     else: return True
 
@@ -123,7 +123,7 @@ class Player:
     """
     Check if the current position of the player is within the allowed horizontal area of the screen.
     """
-    if (curr_x > 470) or (curr_x < 2):
+    if (curr_x > 469) or (curr_x < 2):
       return False
     else: return True
 
@@ -159,7 +159,7 @@ class Player:
       return "d"
     else:
       return key
-    
+
 
   def reset_momentum(self):
     """
@@ -269,18 +269,20 @@ class Player:
       self.attack(target = target, damage = self.hotbar[self.last_key_pressed].damage, attack_range = self.hotbar[self.last_key_pressed].attack_range)
 
 
-  def destroy_class(self):
+  def reset(self):
     """
-    Destroys health bar and player.
+    Resets the position of the player.
     """
-    self.player_frame.destroy()
-    self.health_frame.destroy()
-    for i in range(len(self.hotbar_list)):
-      self.hotbar_list[i].destroy()
+    self.reset_momentum()
+    self.curr_x = 100
+    self.curr_y = 100
+    self.update_position()
+    self.health = 50
+    self.update_health()
+    self.health_frame.show()
+    self.can_attack = True
+    print("Resetting " + self.name)
     
-    self.health_frame.destroy()
-    self.health_frame_border.destroy()
-
 
 class Weapon:
   def __init__(self, damage: int, image_list: list, name: str, attack_range: int):
@@ -313,11 +315,12 @@ class Weapon:
 
 class Projectile:
   """
-  
+  Projectile class, which handles all the projectiles made.
   """
-  def __init__(self, image, velocity):
-    self.velocity = velocity
+  def __init__(self, image, momentum, gravity):
+    self.momentum = momentum
     self.image = image
+    self.gravity = gravity
 
 
 def player_2_setup():
@@ -341,26 +344,6 @@ def player_2_setup():
     p2.hotbar_list[i].place(x = 500-p2.health-28-100+(30*i), y = 1) # This needs to change sometime in the future.
 
 
-def reset():
-  """
-  Resets the visuals of the game, and resets player health and position.
-  """
-  print("Resetting!")
-  global p1
-  global p2
-  p1.destroy_class()
-  p2.destroy_class()
-  p1 = Player(name = "Womzard", player_colour = "orange")
-  p1.hotbar = [p1.sword, p1.bow, p1.hellsword, p1.dagger]
-  p1.load_hotbar()
-  p2 = Player(name = "Wimzard", player_colour = "violet")
-  p2.hotbar = [p2.sword, p2.bow, p2.hellsword, p2.dagger]
-  p2.load_hotbar()
-  p1.curr_x, p1.curr_y = 100, 100
-  p1.update_position()
-  player_2_setup()
-  p1.last_key_pressed = -1
-  p2.last_key_pressed = -1
 
 
 def get_keypress(event):
@@ -371,24 +354,26 @@ def get_keypress(event):
 
   if key in ("i","j","k","l"):
     p2.move(key)
-  if key == ".":
+  elif key == ".":
     p2.melee(p1)
-  if key in ("7","8","9","0"):
+  elif key in ("7","8","9","0"):
     p2.use_hotbar(key)
-  if key == "o":
+  elif key == "o":
     p2.use_item(p1)
 
-  if key in ("w","a","s","d"):
+  elif key in ("w","a","s","d"):
     p1.move(key)
-  if key == "c":
+  elif key == "c":
     p1.melee(p2)
-  if key in ("1","2","3","4"):
+  elif key in ("1","2","3","4"):
     p1.use_hotbar(key)
-  if key == "e":
+  elif key == "e":
     p1.use_item(p2)
 
-  if key == "t":
-    reset()
+  elif key == "t":
+    p1.reset()
+    p2.reset()
+    player_2_setup()
 
 
 def initial_player_creation():
@@ -407,17 +392,18 @@ def initial_player_creation():
 
 initial_player_creation()
 
-def reset_momentum(event):
+def get_keyups(event):
   key = str.lower(event.char)
 
   if key in ("w","a","s","d"):
     p1.reset_momentum()
-  if key in ("i","j","k","l"):
+  elif key in ("i","j","k","l"):
     p2.reset_momentum()
 
 
+
 root.bind("<KeyPress>", get_keypress)
-root.bind("<KeyRelease>", reset_momentum)
+root.bind("<KeyRelease>", get_keyups)
 
 game_running = True
 
