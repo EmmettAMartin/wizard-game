@@ -20,7 +20,6 @@ Try to not have too much complicated and very specific math, but I'm guilty of i
 If you do have complicated math with hard-coded values, then just make sure to add a description.
 """
 
-
 import nebulatk as ntk
 
 from random import randint
@@ -29,11 +28,13 @@ from math import sqrt
 
 import time
 
-from player import *
+import player as player
 
-from weapon import *
+import weapon as weapon
 
-from projectile import *
+from subprocess import *
+
+import projectile
 
 root = ntk.Window(width = 500, height = 500, resizable = False, title = "Wizard Game")
 
@@ -45,8 +46,6 @@ root.closing_command = close
 c = ntk.Frame(root = root, width = 500, height = 500, fill = "black", border_width = 0)
 
 c.place()
-
-
 
 def player_2_setup():
   """
@@ -60,13 +59,13 @@ def player_2_setup():
     p2.hotbar[j].regenerate_image()
   for i in range(4):
     """
-    This is more or less the same as the code in the __init__, but here it has to be modified
-    to fit the needs of player 2. We need to take 500, the outer limit of the screen size, and
-    subtract the length of the frame size. After that we can take -100, and add 30*i, and add that
-    result back into our original calculation.
-    Since we never update the position of the hotbar frames, we can use the length of the health bar as if it was a static value.
+    We need to take 500, the outer limit of the screen size, and
+    subtract the length of the frame size. After that we can take -100, and add 30*i,
+    and add that result back into our original calculation.
+    Since we never update the position of the hotbar frames,
+    we can use the length of the health bar as if it was a static value.
     """
-    p2.hotbar_list[i].place(x = 500-p2.health-28-100+(30*i), y = 1) # This needs to change sometime in the future.
+    p2.hotbar_list[i].place(x = 500-p2.health-24-100+(30*i), y = 1) # This needs to change sometime in the future.
 
 
 def get_keypress(event):
@@ -104,14 +103,23 @@ def initial_player_creation():
   global p2
   # Paves the way for menu creation later on by not having the objects created as soon as the file is ran.
   # Just making life easier for future me.
-  p1 = Player(root=root, name = "Womzard", player_colour = "orange")
-  p1.hotbar = [p1.sword, p1.bow, p1.hellsword, p1.dagger]
+  p1 = player.Player(root=root, name = "Womzard", player_colour = "orange")
+  p1.hotbar = [sword, bow, hellsword, dagger]
   p1.load_hotbar()
-  p2 = Player(root=root, name = "Wimzard", player_colour = "violet")
-  p2.hotbar = [p2.sword, p2.bow, p2.hellsword, p2.dagger]
+  p2 = player.Player(root=root, name = "Wimzard", player_colour = "violet")
+  p2.hotbar = [sword, bow, hellsword, dagger]
   p2.load_hotbar()
   player_2_setup()
 
+
+sword = weapon.Weapon(name = "sword", damage = 6, attack_range = 75, image_list = ["sword.png", "sword2.png"])
+hellsword = weapon.Weapon(name = "hellsword", damage = 10, attack_range = 90, image_list = ["hellsword.png"])
+#-----------------------------------------------------------------------------------------------------------------------------------#
+cat = weapon.Weapon(name = "cat", damage = 10, attack_range = 500, image_list = ["cat.png"]) # DO NOT USE: TOO BUSTED AT THIS TIME! #
+#-----------------------------------------------------------------------------------------------------------------------------------#
+dagger = weapon.Weapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
+shield = weapon.Weapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
+bow = weapon.Weapon(name = "bow", damage = 3, attack_range = 200, image_list = ["bow.png"])
 
 initial_player_creation()
 

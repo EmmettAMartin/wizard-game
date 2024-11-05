@@ -37,15 +37,6 @@ class Player:
     self.name = name
     self.last_key_pressed = -1
 
-    self.sword = Weapon(name = "sword", damage = 6, attack_range = 75, image_list = ["sword.png", "sword2.png"])
-    self.hellsword = Weapon(name = "hellsword", damage = 10, attack_range = 90, image_list = ["hellsword.png"])
-    #---------------------------------------------------------------------------------------------------------------------------------#
-    self.cat = Weapon(name = "cat", damage = 10, attack_range = 500, image_list = ["cat.png"]) # DO NOT USE: TOO BUSTED AT THIS TIME! #
-    #---------------------------------------------------------------------------------------------------------------------------------#
-    self.dagger = Weapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
-    self.shield = Weapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
-    self.bow = Weapon(name = "bow", damage = 3, attack_range = 200, image_list = ["bow.png"])
-
 
   def load_hotbar(self):
     """
