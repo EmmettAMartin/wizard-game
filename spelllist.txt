@@ -1,0 +1,2 @@
+(["name"]["damage_type"]["image.png/jpg"][radius][spread_type]["description"])
+(["Fireball]["fire"]["0.png"][50][octagon]["The classic Fireball. Creates a large radius of fire, which inflicts damage over time."])
