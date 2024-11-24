@@ -1,11 +1,10 @@
-from weapon import *
 import nebulatk as ntk
 from math import sqrt
 
 class Player:
   """
   Main Player class.
-  Takes a butt ton of variables, and does a butt ton of stuff.
+  Takes a crap ton of variables, and does a crap ton of stuff.
   Look at the individual functions for more information.
   """
 

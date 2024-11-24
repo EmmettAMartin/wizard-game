@@ -22,10 +22,6 @@ If you do have complicated math with hard-coded values, then just make sure to a
 
 import nebulatk as ntk
 
-from random import randint
-
-from math import sqrt
-
 import time
 
 import player as player
