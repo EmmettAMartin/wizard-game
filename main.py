@@ -24,9 +24,9 @@ import nebulatk as ntk
 
 import time
 
-import player as player
+import player
 
-import weapon as weapon
+import weapon
 
 from subprocess import *
 
