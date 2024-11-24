@@ -1,49 +1,69 @@
-# The projectile moves on a slope
-# The slope is determined by (y2-y1)/(x2-x1)
-# Where y2 and x2 are the target x and y,
-# while y1 and x1 are the player x and y.
-# So -> step 1. We need to get our new X value and Y value. Just add the offsets.
-#       step 2. We then get the slope. IF the slope is 0, then we don't do anything involving y rotation.
-#               IF the slope is undefined, then we don't do anything with the x rotation, and set the x momentum to 0.
-#       step 3. We then add the speed to the x (unless we can't, see step 2)
-#       step 4. Add the upwards momentum to the y (again, unless we can't, see step 2)
-#       step 5. Finally, we check if our projectile can go any farther (has it reached it's maximum distance), and then update the position!
+import nebulatk as ntk
+from time import sleep
+from math import sqrt
 
 class Projectile:
   """
   Projectile class, which defines the movements and trajectories of projectiles.
   """
-  def __init__(self, image, momentum_x, momentum_y, position_x, position_y, gravity, root, x_offset, y_offset, target_x, target_y):
-    self.root = root
-    self.momentum_x = momentum_x
-    self.momentum_y = momentum_y
-    self.position_x = position_x
-    self.position_y = position_y
+  def __init__(self, image, momentum_x, momentum_y, position_x, position_y, gravity, root, target_x, target_y, projectile_range):
     self.image = image
-    self.gravity = gravity
-    self.x_offset = x_offset
-    self.y_offset = y_offset
-    self.target_x = target_x
+    self.position_x = position_x # position of projectile
+    self.position_y = position_y
+    self.target_x = target_x # position of the target
     self.target_y = target_y
+    self.projectile_range = projectile_range # range of projectile
+    self.momentum_x = momentum_x # The change in the position.
+    self.momentum_y = momentum_y
+    self.gravity = gravity # The negative y influence that also affects the projectile position
+    self.root = root # Root widget for the projectile widget
     self.is_undefined_string = "undefined"
+    self.frame = ntk.Frame(self.root, width=10, height=10, fill="white")
+    self.distance_covered = 0
+    self.original_position_x = position_x
+    self.original_position_y = position_y
 
-  def set_offsets(self):
-    self.position_x += self.x_offset
-    self.position_y += self.y_offset
+    self.Dalia_skill = "issue" # don't ask.
+
+    if self.Dalia_skill != "issue":
+      exit(1)
+
+
+  def move_frame(self):
+    while True:
+      sleep(0.01)
+      self.position_x += 1
+      self.position_y += 1
+      self.frame.place(x=self.position_x, y=self.position_y)
+      self.get_distance_covered()
+      if self.distance_covered >= self.projectile_range:
+        self.reset_position()
   
-  def get_slope(self):
-    x_result = self.target_x-self.position_x
-    y_result = self.target_y-self.position_y
-    if x_result == 0:
-      return self.is_undefined_string
-    else:
-      return y_result/x_result
+  def get_distance_covered(self):
+    diff_x = abs(self.original_position_x-self.position_x) ** 2
+    diff_y = abs(self.original_position_y-self.position_y) ** 2
+    hypotenuse = sqrt(diff_x+diff_y)
+    self.distance_covered = hypotenuse
+
+  def reset_position(self):
+    self.position_x = self.original_position_x
+    self.position_y = self.original_position_y
   
-  def apply_momentum(self):
-    slope = self.get_slope()
-    if slope == self.is_undefined_string:
-      self.momentum_x = 0
-    elif slope == 0:
-      pass
-    else:
-      pass
+
+
+  # def get_slope(self):
+  #   x_result = self.target_x-self.position_x
+  #   y_result = self.target_y-self.position_y
+  #   if x_result == 0:
+  #     return self.is_undefined_string
+  #   else:
+  #     return y_result/x_result
+  
+  # def apply_momentum(self):
+  #   slope = self.get_slope()
+  #   if slope == self.is_undefined_string:
+  #     self.momentum_x = 0
+  #   elif slope == 0:
+  #     pass
+  #   else:
+  #     pass
