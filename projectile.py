@@ -6,22 +6,20 @@ class Projectile:
   """
   Projectile class, which defines the movements and trajectories of projectiles.
   """
-  def __init__(self, image, momentum_x, momentum_y, position_x, position_y, gravity, root, target_x, target_y, projectile_range):
+  def __init__(self, target_x, target_y, image, position_x, position_y, root, projectile_range = 500):
     self.image = image
     self.position_x = position_x # position of projectile
     self.position_y = position_y
     self.target_x = target_x # position of the target
     self.target_y = target_y
     self.projectile_range = projectile_range # range of projectile
-    self.momentum_x = momentum_x # The change in the position.
-    self.momentum_y = momentum_y
-    self.gravity = gravity # The negative y influence that also affects the projectile position
     self.root = root # Root widget for the projectile widget
     self.is_undefined_string = "undefined"
     self.frame = ntk.Frame(self.root, width=10, height=10, fill="white")
     self.distance_covered = 0
     self.original_position_x = position_x
     self.original_position_y = position_y
+    self.static_inc = 0
 
     self.Dalia_skill = "issue" # don't ask.
 
@@ -32,9 +30,17 @@ class Projectile:
   def move_frame(self):
     while True:
       sleep(0.01)
+
+      # well here goes nothing
       self.position_x += 1
-      self.position_y += 1
-      self.frame.place(x=self.position_x, y=self.position_y)
+      self.static_inc += 1
+      self.position_y = round(  ((-0.16)*(self.static_inc**2))+((0.8)*self.static_inc)  )
+      print(self.position_y)
+
+      # ntk.Frame(root = self.root, width=10, height=10, fill="red1").place(self.position_x, self.position_y)
+      
+
+      self.frame.place(x=100, y=self.position_y)
       self.get_distance_covered()
       if self.distance_covered >= self.projectile_range:
         self.reset_position()
@@ -48,6 +54,7 @@ class Projectile:
   def reset_position(self):
     self.position_x = self.original_position_x
     self.position_y = self.original_position_y
+    self.static_inc = 0
   
 
 

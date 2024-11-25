@@ -8,6 +8,6 @@ c = ntk.Frame(root = root, width = 500, height = 500, fill = "black", border_wid
 
 c.place()
 
-projectile1 = projectile.Projectile(None, None, None, 100, 100, None, root, 300, 300, 500)
+projectile1 = projectile.Projectile(300, 300, None, 100, 100, root)
 
 projectile1.move_frame()
