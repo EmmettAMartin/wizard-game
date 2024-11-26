@@ -11,7 +11,7 @@ class Player:
   Look at the individual functions for more information.
   """
 
-  def __init__(self, root, name: str, player_colour: str, speed: int = 3, hotbar: list = [], health: int = 50):
+  def __init__(self, root, name: str, player_colour: str, speed: int = 2, hotbar: list = [], health: int = 50):
     self.hotbar = hotbar
     self.vertical_direction = 0
     self.horizontal_direction = 0
@@ -228,8 +228,8 @@ class Player:
 
   def check_hit(self, projectile, target):
     if (projectile.position_x >= target.curr_x 
-        and projectile.position_x+10 <= target.curr_x + 30
-        and projectile.position_y >= target.curr_y
+        and projectile.position_x + 10 <= target.curr_x + 30
+        and projectile.position_y + 10 >= target.curr_y
         and projectile.position_y <= target.curr_y + 30):
       self.deal_damage(target, projectile.damage)
       projectile.delete()

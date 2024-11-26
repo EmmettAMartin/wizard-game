@@ -115,7 +115,7 @@ cat = weapon.MeleeWeapon(name = "cat", damage = 10, attack_range = 500, image_li
 #-----------------------------------------------------------------------------------------------------------------------------------#
 dagger = weapon.MeleeWeapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
 shield = weapon.MeleeWeapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
-bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 3, attack_range = 200, image_list = ["bow.png"])
+bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 5  , attack_range = 200, image_list = ["bow.png"])
 
 initial_player_creation()
 
@@ -133,7 +133,7 @@ root.bind("<KeyRelease>", get_keyups)
 
 game_running = True
 
-tps = 50
+tps = 100
 while game_running:
   start_tick = time.time()
 
@@ -146,3 +146,4 @@ while game_running:
   completed_in = time.time()-start_tick
   if completed_in < (1/tps):
     time.sleep(1/tps - completed_in)
+  else: print("---------------------SLOWDOWN")
