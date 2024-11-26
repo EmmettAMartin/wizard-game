@@ -114,12 +114,12 @@ def initial_player_creation():
 
 sword = weapon.MeleeWeapon(name = "sword", damage = 6, attack_range = 75, image_list = ["sword.png", "sword2.png"])
 hellsword = weapon.MeleeWeapon(name = "hellsword", damage = 10, attack_range = 90, image_list = ["hellsword.png"])
-#-----------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
 cat = weapon.MeleeWeapon(name = "cat", damage = 10, attack_range = 500, image_list = ["cat.png"]) # DO NOT USE: TOO BUSTED AT THIS TIME! #
-#-----------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
 dagger = weapon.MeleeWeapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
 shield = weapon.MeleeWeapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
-bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 5  , attack_range = 200, image_list = ["bow.png"], projectile_image = "arrow.png")
+bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 5  , attack_range = 300, image_list = ["bow.png"], projectile_image = "arrow.png")
 
 initial_player_creation()
 
