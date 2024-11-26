@@ -1,6 +1,9 @@
 import nebulatk as ntk
 from math import sqrt
 
+from projectile import Projectile
+import weapon
+
 class Player:
   """
   Main Player class.
@@ -24,6 +27,8 @@ class Player:
       self.wizard_texture = "wizard.png"
     if name == "Wimzard":
       self.wizard_texture = "wizard2.png"
+
+    self.projectiles = []
 
     self.player_frame = ntk.Label(root=root, width=30, height=30, image=self.wizard_texture).place(x = self.curr_x, y = self.curr_y)
 
@@ -132,6 +137,13 @@ class Player:
 
     self.player_frame.place(x = self.curr_x, y = self.curr_y)
 
+  def update_projectiles(self):
+    for projectile in self.projectiles:
+      if projectile.moving:
+        projectile.update_position()
+      else:
+        projectile.delete()
+        self.projectiles.remove(projectile)
 
   def is_target_in_range(self, x: int, y: int, target_x: int, target_y: int, attack_range: int):
     """
@@ -150,7 +162,13 @@ class Player:
       return True
     else: return False
 
-
+  def deal_damage(self, target: object, damage: int):
+    target.health -= damage
+    target.update_health()
+    if target.health <= 0 and self.can_attack:
+      self.can_attack = False
+      print(f"Player health at: {self.health}")
+    
   def attack(self, target: object, damage: int, attack_range: int):
     """
     Takes a target, damage, and attack range. If it is possible to attack, will then damage target and
@@ -158,11 +176,7 @@ class Player:
     """
     within_range = self.is_target_in_range(x = self.curr_x, y = self.curr_y, target_x = target.curr_x, target_y = target.curr_y, attack_range = attack_range)
     if within_range and self.can_attack:
-      target.health -= damage
-      target.update_health()
-    if target.health <= 0 and self.can_attack:
-      self.can_attack = False
-      print(f"Player health at: {self.health}")
+      self.deal_damage(target, damage)
 
 
   def melee(self, target: object):
@@ -212,19 +226,57 @@ class Player:
       if self.hotbar_list[i] != self.hotbar_list[key-1]:
         self.hotbar_list[i].configure(fill = "black")
 
+  def check_hit(self, projectile, target):
+    if (projectile.position_x >= target.curr_x 
+        and projectile.position_x+10 <= target.curr_x + 30
+        and projectile.position_y >= target.curr_y
+        and projectile.position_y <= target.curr_y + 30):
+      self.deal_damage(target, projectile.damage)
+      projectile.delete()
+      self.projectiles.remove(projectile)
 
   def use_item(self, target: object):
     """
     Uses the item in the selected hotbar slot.
     """
-    if self.last_key_pressed != -1:
-      self.attack(target = target, damage = self.hotbar[self.last_key_pressed].damage, attack_range = self.hotbar[self.last_key_pressed].attack_range)
+    if self.last_key_pressed == -1:
+      return
+    
+    current_weapon = self.hotbar[self.last_key_pressed]
+    
+    if not self.can_attack:
+      return
+    
+    if current_weapon.attack_type == weapon.MELEE:
+      self.attack(target = target, damage = current_weapon.damage, attack_range = current_weapon.attack_range)
+    elif current_weapon.attack_type == weapon.RANGED:
+      projectile = Projectile(
+        root = self.root,
+        target = target,
+        
+        image = current_weapon.projectile_image, 
+        
+        position_x=self.curr_x, 
+        position_y=self.curr_y,
+        
+        speed=current_weapon.projectile_speed,
+        
+        projectile_range=current_weapon.attack_range,
+        damage = current_weapon.damage,
+        
+        check = self.check_hit,
+      )
+      self.projectiles.append(projectile)
 
 
   def reset(self):
     """
     Resets the position of the player.
     """
+    for projectile in self.projectiles:
+      projectile.delete()
+    self.projectiles = []
+    
     self.reset_momentum()
     self.curr_x = 100
     self.curr_y = 100
