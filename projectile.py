@@ -54,7 +54,7 @@ class Projectile:
       exit(1)
       
     try:
-      open("visualization.png","r")
+      open("visualization.png","r").close()
     except FileNotFoundError:
       exit(1)
 
