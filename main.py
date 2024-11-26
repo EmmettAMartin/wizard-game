@@ -108,14 +108,14 @@ def initial_player_creation():
   player_2_setup()
 
 
-sword = weapon.Weapon(name = "sword", damage = 6, attack_range = 75, image_list = ["sword.png", "sword2.png"])
-hellsword = weapon.Weapon(name = "hellsword", damage = 10, attack_range = 90, image_list = ["hellsword.png"])
+sword = weapon.MeleeWeapon(name = "sword", damage = 6, attack_range = 75, image_list = ["sword.png", "sword2.png"])
+hellsword = weapon.MeleeWeapon(name = "hellsword", damage = 10, attack_range = 90, image_list = ["hellsword.png"])
 #-----------------------------------------------------------------------------------------------------------------------------------#
-cat = weapon.Weapon(name = "cat", damage = 10, attack_range = 500, image_list = ["cat.png"]) # DO NOT USE: TOO BUSTED AT THIS TIME! #
+cat = weapon.MeleeWeapon(name = "cat", damage = 10, attack_range = 500, image_list = ["cat.png"]) # DO NOT USE: TOO BUSTED AT THIS TIME! #
 #-----------------------------------------------------------------------------------------------------------------------------------#
-dagger = weapon.Weapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
-shield = weapon.Weapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
-bow = weapon.Weapon(name = "bow", damage = 3, attack_range = 200, image_list = ["bow.png"])
+dagger = weapon.MeleeWeapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
+shield = weapon.MeleeWeapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
+bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 3, attack_range = 200, image_list = ["bow.png"])
 
 initial_player_creation()
 
@@ -139,6 +139,9 @@ while game_running:
 
   p1.update_position()
   p2.update_position()
+  
+  p1.update_projectiles()
+  p2.update_projectiles()
 
   completed_in = time.time()-start_tick
   if completed_in < (1/tps):
