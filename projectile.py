@@ -20,7 +20,10 @@ class Projectile:
     self.projectile_range = projectile_range # range of projectile
     self.root = root # Root widget for the projectile widget
     self.is_undefined_string = "undefined"
-    self.frame = ntk.Frame(self.root, width=10, height=10, fill="white").place(x= self.position_x, y= self.position_y)
+    if self.image:
+      self.frame = ntk.Label(self.root, width=10, height=10, image=self.image).place(x = self.position_x, y = self.position_y)
+    else:
+      self.frame = ntk.Label(self.root, width=10, height=10, image="0.png").place(x = self.position_x, y = self.position_y)
     self.distance_covered = 0
     self.original_position_x = position_x
     self.original_position_y = position_y
@@ -100,19 +103,3 @@ class Projectile:
     except ValueError: # because wizard-game is thread-unsafe, we might run into an error if the game resets while a tick is running
       pass
 
-  # def get_slope(self):
-  #   x_result = self.target_x-self.position_x
-  #   y_result = self.target_y-self.position_y
-  #   if x_result == 0:
-  #     return self.is_undefined_string
-  #   else:
-  #     return y_result/x_result
-  
-  # def apply_momentum(self):
-  #   slope = self.get_slope()
-  #   if slope == self.is_undefined_string:
-  #     self.momentum_x = 0
-  #   elif slope == 0:
-  #     pass
-  #   else:
-  #     pass

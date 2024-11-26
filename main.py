@@ -4,13 +4,17 @@ It all started when Wimzard and Womzard were having tea together, and discussing
 Wimzard enjoyed lemon in his tea, while Womzard preferred milk. Not only this, but Wimzard was more of a coffee person,
 and believes that's where milk belongs. Womzard was appalled at this revelation, and the situation deteriorated from there.
 
-Thanks to my friend, Sergeant_Ranger (Reuben), for helping me port NebulaTK into the game, and for helping me with some of the functions and code.
+Thanks to my friend, Sergeant_Ranger (Reuben), for helping me port NebulaTK into the game, and for helping me with some of the functions and code (and all of the projectiles).
 He also made NebulaTK, and it's great! Check it out when it releases!
 
 Thanks to my Sister, Madeleine, for helping me with the lore, and naming the characters.
 
 Thanks to my friend, Rowan, for playing it with me, even when it was literally just 2 cubes and 2 bars at the top of the screen,
 and to listening to my dev updates.
+
+CONTRIBUTORS <3:
+    dleggo, CTRL_ALT_OP.
+    Without the contributors, this project would not be possible.
 
 CODING PROTOCOLS:
 Please use descriptive function names, even if they are long and annoying to type.
@@ -115,7 +119,7 @@ cat = weapon.MeleeWeapon(name = "cat", damage = 10, attack_range = 500, image_li
 #-----------------------------------------------------------------------------------------------------------------------------------#
 dagger = weapon.MeleeWeapon(name = "dagger", damage = 4, attack_range = 45, image_list = ["dagger.png"])
 shield = weapon.MeleeWeapon(name = "shield", damage = 0, attack_range = 0, image_list = ["shield.png"])
-bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 5  , attack_range = 200, image_list = ["bow.png"])
+bow = weapon.RangedWeapon(name = "bow", damage = 3, projectile_speed = 5  , attack_range = 200, image_list = ["bow.png"], projectile_image = "arrow.png")
 
 initial_player_creation()
 
