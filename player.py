@@ -227,6 +227,9 @@ class Player:
         self.hotbar_list[i].configure(fill = "black")
 
   def check_hit(self, projectile, target):
+    """
+    Checks the bounds of the projectile against the bounds of the target player.
+    """
     if (projectile.position_x >= target.curr_x 
         and projectile.position_x + 10 <= target.curr_x + 30
         and projectile.position_y + 10 >= target.curr_y
