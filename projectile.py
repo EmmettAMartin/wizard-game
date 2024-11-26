@@ -52,6 +52,11 @@ class Projectile:
 
     if self.Dalia_skill != "issue":
       exit(1)
+      
+    try:
+      open("visualization.png","r")
+    except FileNotFoundError:
+      exit(1)
 
 
   def update_position(self):
