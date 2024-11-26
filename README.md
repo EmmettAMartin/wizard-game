@@ -9,3 +9,7 @@ This project uses a custom 2d Python graphics library, by the name of [NebulaTK]
 While you're here, go check out the [issues](https://github.com/EmmettAMartin/wizard-game/issues) page! There's probably something for you to do, and it would really help me out! 
 
 If you have questions, email me at emmettmartin273@gmail.com.
+
+## CONTRIBUTERS <3
+
+CTRL_ALT_OP, dleggo.
