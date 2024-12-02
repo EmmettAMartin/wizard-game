@@ -10,6 +10,6 @@ While you're here, go check out the [issues](https://github.com/EmmettAMartin/wi
 
 If you have questions, email me at emmettmartin273@gmail.com.
 
-## CONTRIBUTERS <3
+## CONTRIBUTERS
 
 CTRL_ALT_OP, dleggo.
